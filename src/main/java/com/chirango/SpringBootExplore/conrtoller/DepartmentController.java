@@ -1,8 +1,11 @@
 package com.chirango.SpringBootExplore.conrtoller;
 
 import com.chirango.SpringBootExplore.entity.Department;
+import com.chirango.SpringBootExplore.exception.DepartmentNotFoundException;
 import com.chirango.SpringBootExplore.service.DepartmentService;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +18,8 @@ public class DepartmentController {
     @Autowired
     private DepartmentService departmentService;
 
+    private final Logger log = LoggerFactory.getLogger( DepartmentController.class);
+
     @PostMapping("/departments")
     public Department saveDepartment(@Valid @RequestBody Department department) {
         return departmentService.saveDepartment(department);
@@ -26,7 +31,7 @@ public class DepartmentController {
     }
 
     @GetMapping("/departments/{id}")
-    public Department fetchDepartmentById(@PathVariable("id") Long departmentId) {
+    public Department fetchDepartmentById(@PathVariable("id") Long departmentId) throws DepartmentNotFoundException {
         return departmentService.fetchDepartmentById(departmentId);
     }
 
